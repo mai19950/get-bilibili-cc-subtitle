@@ -1,4 +1,5 @@
 const args = require('minimist')(process.argv.slice(2))
+
 const { resolve, http, _2, _second } = require('./utils')
 const { writeFileSync, existsSync } = require('fs')
 const { basename } = require('path')
@@ -150,3 +151,9 @@ class Subtitle {
       })
   }
 }
+
+const { url, title } = args
+if (!url || !title) {
+  throw new TypeError('please check params')
+}
+new Subtitle(url, title)
