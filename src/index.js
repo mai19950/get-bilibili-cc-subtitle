@@ -3,6 +3,7 @@ const args = require('minimist')(process.argv.slice(2))
 const { resolve, http, _2, _second } = require('./utils')
 const { writeFileSync, existsSync } = require('fs')
 const { basename } = require('path')
+const { cid_url, aid_url, data_link } = require('./links')
 
 class Subtitle {
   constructor(url, title = '') {
@@ -41,7 +42,7 @@ class Subtitle {
   }
 
   get_cid() {
-    return http(`https://api.bilibili.com/x/player/pagelist?bvid=${this.bvid}&jsonp=jsonp`)
+    return http(cid_url(this.bvid))
       .then(res => {
         let data = JSON.parse(res.text)
         // console.log(data.data.length)
@@ -55,7 +56,7 @@ class Subtitle {
   }
 
   get_aid() {
-    return http(`https://api.bilibili.com/x/web-interface/archive/stat?bvid=${this.bvid}`)
+    return http(aid_url(this.bvid))
       .then(res => {
         // console.log(res.text)
         let data = JSON.parse(res.text)
@@ -87,8 +88,8 @@ class Subtitle {
           return this.params
         }
       })
-      .then(({ cid, aid, bvid }) => {
-        return `https://api.bilibili.com/x/player/v2?cid=${cid}&aid=${aid}&bvid=${bvid}`
+      .then(data => {
+        return data_link(data)
       })
   }
 
