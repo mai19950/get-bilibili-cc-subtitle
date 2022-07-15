@@ -80,7 +80,7 @@ class Subtitle {
         _res(this.params)
       }
     })
-      .then(data => {
+      .then(_data => {
         if (!this.has_aid) {
           return this.get_aid().then(() => this.params)
         } else {
@@ -118,9 +118,9 @@ class Subtitle {
         let srt = [
           i + 1,
           [
-            `${_2(from / 60 / 60)}:${_2(from / 60)}:${_2(from % 60)},${_second(_.from)}`,
+            `${_2(from / 3600)}:${_2((from % 3600) / 60)}:${_2(from % 60)},${_second(_.from)}`,
             '-->',
-            `${_2(to / 60 / 60)}:${_2(to / 60)}:${_2(to % 60)},${_second(_.to)}`,
+            `${_2(to / 3600)}:${_2((to % 3600) / 60)}:${_2(to % 60)},${_second(_.to)}`,
           ].join(' '),
           _.content,
         ].join('\n')
@@ -130,8 +130,6 @@ class Subtitle {
   }
 
   run() {
-    const self = this
-
     this.get_link()
       .then(link =>
         http(link).then(res => {
