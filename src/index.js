@@ -89,6 +89,7 @@ class Subtitle {
         }
       })
       .then(data => {
+        console.log(data)
         return data_link(data)
       })
   }
@@ -152,6 +153,7 @@ class Subtitle {
 }
 
 const { url, title } = args
+console.log(args)
 if (!url || !title) {
   throw new TypeError('please check params')
 }
